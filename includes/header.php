@@ -18,7 +18,6 @@
                 <li><a href="category-manage.php">Category</a></li>
                 <li><a href="food-manage.php">Food</a></li>
                 <li><a href="order-manage.php">Order</a></li>
-                <li><a href="customer-manage.php">Customers</a></li>
                 <li><a href="Authentication/logout.php">Log Out</a></li>
 
             </ul>

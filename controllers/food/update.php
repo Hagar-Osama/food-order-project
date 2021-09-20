@@ -2,16 +2,14 @@
 $_SESSION ['validation-errors'] = [];
 //check if button clicked
 if (isset($_POST['update'])) {
-    // echo 'clicked';
-    // die();
     //1- get data from form
     $id = filter_var($_POST['id'], FILTER_VALIDATE_INT);
     $title = filter_var($_POST['title'], FILTER_SANITIZE_STRING);
     $description = filter_var($_POST['description'], FILTER_SANITIZE_STRING);
-    $price = filter_var($_POST['price'], FILTER_VALIDATE_INT);
+    $price = htmlspecialchars($_POST['price']);
     $featured = $_POST['featured'];
     $active = $_POST['active'];
-    $category_id = $_POST['category_id'];
+    $category = $_POST['category_id'];
     $current_image = $_POST['current_image'];
 
 
@@ -29,50 +27,51 @@ if (isset($_POST['update'])) {
     } elseif (strlen($description) < 20) {
         $_SESSION['validation-errors'][] = 'description must be greater than 19 char';
     } else if (strlen($description) > 200) {
-        $_SESSION['error'][] = 'description must be less than 201 char';
+        $_SESSION['validation-errors'][] = 'description must be less than 201 char';
     }
     if (empty($price)) {
         $_SESSION['validation-errors'][] = 'Price must be entered';
-    } elseif (!is_numeric($price) || $price <= 0) {
-        $_SESSION['validation-errors'][] = 'Price must be a number and greater than zero';
-    }
-    if (isset($_FILES['image']['name'])) {
+     } elseif (! is_numeric($price) || $price <= 0) {
+         $_SESSION['validation-errors'][] = 'Price must be a number and greater than zero';
+     }
+      //check if image is selected or not
+      if (isset($_FILES['image']['name']) && !empty($_FILES['image']['name'])) {
         $image_name = $_FILES['image']['name'];
         $image_type = $_FILES['image']['type'];
         $image_tmp = $_FILES['image']['tmp_name'];
         $image_error = $_FILES['image']['error'];
         $image_size = $_FILES['image']['size'];
-        $image_extension = pathinfo($image_name, PATHINFO_EXTENSION);
-        $image_new_name = rand() . '.' . $image_extension;
-        $data = move_uploaded_file($image_tmp, '../../images/food/' .$image_new_name);
-        //    var_dump($data);
-        //    die();
-           // remove the old image
-           if (! empty($current_image)) {
-            //image is available
-            $remove_path = "../../images/food/" .$current_image;
+        if (! empty($image_name)) {
+            //upload new image
+            $image_extension = pathinfo($image_name, PATHINFO_EXTENSION);
+            $image_name = rand() . '.' . $image_extension;
+            $data = move_uploaded_file($image_tmp, '../../images/food/'.$image_name);
+            // remove the old image
+            //     //image is available
+            $remove_path = "../../images/food/" . $current_image;
             $remove = unlink($remove_path);
-            if ($remove == false) {
-                $_SESSION['error'] = "Image Failed To Be Removed.";
-                header("location:" . SITEURL . "adminpanel/food-manage.php");
-            } else {
-                // upload button not clicked
-                $image_name = $current_image;
-            }
+              if ($remove == false) {
+            $_SESSION['error'] = "Image Failed To Be Removed.";
+            header("location:" . SITEURL . "adminpanel/food-manage.php");
         }
-
+        }else {
+            $image_name = $current_image;
+        }
+    }else {
+        // upload button not clicked
+        $image_name = $current_image;
     }
     //check empty errors
     if (! empty($_SESSION['validation-errors'])) {
         header('location:' . SITEURL . 'adminpanel/update_food.php');
     } else
         //5- create the sql query to be updated
-        $sql = "UPDATE food SET title = '$title', `description` = '$description', price = $price, category_id = '$category_id', featured = '$featured', active = '$active', `image` = '$image_new_name'  WHERE id = '$id'";
-        echo $sql;
-       die();
+        $sql3 = "UPDATE food SET title = '$title', `description` = '$description', price = '$price', category_id = '$category', featured = '$featured', active = '$active', `image` = '$image_name'  WHERE id = '$id'";
+    //     echo $sql3;
+    //    die();
     //execute the query
-    $result = mysqli_query($connection, $sql);
-    // var_dump($result);
+    $result3 = mysqli_query($connection, $sql3);
+    // print_r($result3);
     // die();
     if (mysqli_affected_rows($connection) > 0) {
         // 6- redirect to food-manage page with message

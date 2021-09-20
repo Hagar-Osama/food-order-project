@@ -4,7 +4,8 @@ $description = "";
 $price = "";
 //get the id to be updated
 if (isset($_GET['id']) && filter_var($_GET['id'], FILTER_VALIDATE_INT)) {
-    $id = $_GET['id'];
+   $id = $_GET['id'];
+ 
     //2- create sql query to get the values
     $sql = "SELECT * FROM food WHERE id = '$id'";
     //3- execute the query 
@@ -15,8 +16,8 @@ if (isset($_GET['id']) && filter_var($_GET['id'], FILTER_VALIDATE_INT)) {
         $row2 = mysqli_fetch_assoc($result);
         $title = $row2['title'];
         $description = $row2['description'];
-        $price = $data = $row2['price'];
-        $category_id = $row2['category_id'];
+        $price = $row2['price'];
+        $current_category = $row2['category_id'];
         $featured = $row2['featured'];
         $active = $row2['active'];
         $current_image = $row2['image'];
@@ -51,23 +52,23 @@ if (isset($_GET['id']) && filter_var($_GET['id'], FILTER_VALIDATE_INT)) {
                     <td>Category ID</td>
                     <td> <select name="category_id">
                     <?php //write sql to get active category from database
-                            $sql = "SELECT id , title FROM categories WHERE active = 'yes'";
+                            $sql2 = "SELECT id, title FROM categories WHERE active = 'yes'";
                             //execute the statment
-                            $result = mysqli_query($connection, $sql);
+                            $result2 = mysqli_query($connection, $sql2);
                             //check if statment executed
                             if (mysqli_affected_rows($connection) > 0) {
                                 //get the data from database
-                                while ($row = mysqli_fetch_array($result)) {
-                                    $id = $row['id'];
+                                while ($row = mysqli_fetch_assoc($result2)) {
+                                    $category_id = $row['id'];
                                     $title = $row['title'];
                             ?>
-                                    <option value="<?= $id; ?>"><?= $title; ?></option>
+                                    <option <?= !empty($current_category) && $current_category == $category_id ? 'selected' : ""; ?> value="<?= $category_id; ?>"><?= $title; ?></option>
                                 <?php
                                 }
-                            } else {
-                                ?>
-                                <option value="0">No Category Found</option>
-                            <?php
+                            } 
+                            else {
+                                
+                                echo "<option value='0'>No Category Found</option>";
                             }
                             ?>
                         </select>

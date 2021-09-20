@@ -5,9 +5,10 @@
 $_SESSION['validation-errors'] = [];
 //make validation rules;
     if (isset($_POST['submit'])) {
-       $fullname = filter_var($_POST['full_name'],FILTER_SANITIZE_STRING);
-       $username = filter_var($_POST['user_name'],FILTER_SANITIZE_STRING);
-       $password = filter_var($_POST['password'].FILTER_SANITIZE_STRING);
+
+       $fullname = $_POST['full_name'];
+       $username = $_POST['user_name'];
+       $password = $_POST['password'];
        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
     
     if (empty($fullname)) {
@@ -28,11 +29,11 @@ $_SESSION['validation-errors'] = [];
         $_SESSION['validation-errors'] [] = 'User name must be less than 26 chars';
         
     }
-    if (empty($hashed_password)) {
+    if (empty($password)) {
         $_SESSION['validation-errors'] [] = 'Password is required'; 
-        }elseif (strlen($hashed_password) > 30) {
+        }elseif (strlen($password) > 30) {
         $_SESSION ['validation-errors'][] = 'password must be less than 31 char';
-        }elseif (strlen($hashed_password) < 6) {
+        }elseif (strlen($password) < 6) {
         $_SESSION ['validation-errors'][] = 'password must be greater than 6 char'; 
     }
   
@@ -52,7 +53,7 @@ $_SESSION['validation-errors'] = [];
 
     if (mysqli_affected_rows($connection) > 0) {
         // echo 'good';
-        $_SESSION['success'] = 'Data inserted succussfully';
+        $_SESSION['success'] = 'Data inserted successfully';
         header('location:' . SITEURL . 'adminpanel/admin-manage.php');
     } else {
         $_SESSION['error'] = 'Data Failed To Be Inserted';

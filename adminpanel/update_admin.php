@@ -34,7 +34,7 @@ if (isset($_GET['id']) && filter_var($_GET['id'], FILTER_VALIDATE_INT)) {
         <h1>Update Admin</h1>
         <br />
 
-        <form action="../controllers//admins/update.php" method="POST">
+        <form action="../controllers/admins/update.php" method="POST">
             <table class="tbl-30">
                 <tr>
                     <td>Full Name:</td>
