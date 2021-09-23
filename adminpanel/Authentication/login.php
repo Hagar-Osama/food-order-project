@@ -47,8 +47,8 @@
 //chech if login button is clicked
 if (isset($_POST['login'])) {
     //get the dtat from the login form
-    $username = $_POST['user_name'];
-    $password = $_POST['password'];
+    $username = mysqli_real_escape_string($connection, $_POST['user_name']);
+    $password = mysqli_real_escape_string($connection,$_POST['password']);
     $hashed_password = password_hash($password, PASSWORD_DEFAULT); //problem in this encryption?????
     // sql statment to check whether the username and password exist or not
     $sql = "SELECT `user_name`,`password` FROM admins WHERE `user_name`= '$username'";
@@ -66,7 +66,7 @@ if (isset($_POST['login'])) {
 
     }else {
         $_SESSION['error'] = '<div class="error text-center">Failed To Log In</div>';
-        header("location:".SITEURL."adminpanel/login.php");
+        header("location:".SITEURL."adminpanel/Authentication/login.php");
     }
 }
 
