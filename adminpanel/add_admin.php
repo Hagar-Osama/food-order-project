@@ -4,8 +4,8 @@
     <div class="wrapper">
         <h1>Add Admin</h1>
         <br />
-        <?php if (! empty($_SESSION['validation-errors'])) : ?>
-            <?php foreach ((array) $_SESSION['validation-errors'] as $error) : ?>
+        <?php if (! empty($_SESSION['validation-error'])) : ?>
+            <?php foreach ((array) $_SESSION['validation-error'] as $error) : ?>
                 <div class="alert alert-danger">
                     <span><?= $error; ?></span>
                 </div>
@@ -45,5 +45,5 @@
 
 
 <?php include_once "../includes/footer.php";
- unset($_SESSION['validation-errors']);
+ unset($_SESSION['validation-error']);
  unset($_SESSION['error']); ?>

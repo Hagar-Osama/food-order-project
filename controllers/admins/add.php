@@ -2,43 +2,44 @@
 //process the value from the form and store it in the database
 //check whether the button is clicked or not
 
-$_SESSION['validation-errors'] = [];
+$_SESSION['validation-error'] = [];
 //make validation rules;
     if (isset($_POST['submit'])) {
+     
 
-       $fullname = $_POST['full_name'];
-       $username = $_POST['user_name'];
+       $fullname = filter_var($_POST['full_name'],FILTER_SANITIZE_STRING);
+       $username = filter_var($_POST['user_name'],FILTER_SANITIZE_STRING);
        $password = $_POST['password'];
        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
     
     if (empty($fullname)) {
-        $_SESSION['validation-errors'] [] = 'Full Name must be entered';
+        $_SESSION['validation-error'] [] = 'Full Name must be entered';
 
     }elseif (strlen($fullname) < 6) {
-        $_SESSION['validation-errors'] [] = 'Full name must be greater than 5 chars';
+        $_SESSION['validation-error'] [] = 'Full name must be greater than 5 chars';
     }elseif (strlen($fullname) > 25) {
-        $_SESSION['validation-errors'] [] = 'Full name must be less than 26 chars';
+        $_SESSION['validation-error'] [] = 'Full name must be less than 26 chars';
         
     }
     if (empty($username)) {
-        $_SESSION['validation-errors'] [] = 'User Name must be entered';
+        $_SESSION['validation-error'] [] = 'User Name must be entered';
 
     }elseif (strlen($username) < 6) {
-        $_SESSION['validation-errors'] [] = 'User name must be greater than 5 chars';
+        $_SESSION['validation-error'] [] = 'User name must be greater than 5 chars';
     }elseif (strlen($username) > 25) {
-        $_SESSION['validation-errors'] [] = 'User name must be less than 26 chars';
+        $_SESSION['validation-error'] [] = 'User name must be less than 26 chars';
         
     }
     if (empty($password)) {
-        $_SESSION['validation-errors'] [] = 'Password is required'; 
+        $_SESSION['validation-error'] [] = 'Password is required'; 
         }elseif (strlen($password) > 30) {
-        $_SESSION ['validation-errors'][] = 'password must be less than 31 char';
+        $_SESSION ['validation-error'][] = 'password must be less than 31 char';
         }elseif (strlen($password) < 6) {
-        $_SESSION ['validation-errors'][] = 'password must be greater than 6 char'; 
+        $_SESSION ['validation-error'][] = 'password must be greater than 6 char'; 
     }
   
     //check empty errors
-    if(! empty($_SESSION['validation-errors'])) {
+    if(! empty($_SESSION['validation-error'])) {
         header('location:'.SITEURL.'adminpanel/add_admin.php');
     }
 

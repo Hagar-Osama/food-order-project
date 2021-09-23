@@ -10,9 +10,12 @@ $result = mysqli_query($connection, $sql);
 <div class="main-content">
     <div class="wrapper">
         <h1>Order Manage</h1>
-
         <br /> <br />
-        <a href="#" class="btn-primary">Add Order</a>
+     <?php if (isset($_SESSION['success'])) : ?>
+            <div class="success">
+                <span><?= $_SESSION['success']; ?></span>
+            </div>
+        <?php endif; ?>
         <br /> <br />
         <table class="tbl-full">
             <tr>
@@ -38,6 +41,20 @@ $result = mysqli_query($connection, $sql);
                     <td><?=$data['price'];?></td>
                     <td><?=$data['qty'];?></td>
                     <td><?=$data['order_date'];?></td>
+                    <td>
+                        <?php
+                        if ($data['status']=="ordered") {
+                            echo $data['staus'];
+                        }elseif ($data['status']=="on delivery") {
+                            echo "<label color= 'orange'>$data[status]</label>";
+
+                        }elseif ($data['status']=="delivered") {
+                            echo "<label color= 'green'>$data[status]</label>";
+                        }elseif ($data['status']=="cancelled") {
+                            echo "<label color= 'red'>$data[status]</label>";
+                        }
+                        ?>
+                    </td>
                     <td><?=$data['status'];?></td>
                     <td><?=$data['total'];?></td>
                     <td><?=$data['full-name'];?></td>
@@ -56,4 +73,5 @@ $result = mysqli_query($connection, $sql);
 
 <!-- Main Content Section Ends -->
 
-<?php include_once "../includes/footer.php" ?>
+<?php unset($_SESSION['success']);
+include_once "../includes/footer.php" ?>

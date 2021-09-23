@@ -50,7 +50,7 @@ if (isset($_POST['update'])) {
     $new_password = md5($_POST['new_password']);
     $confirm_password = md5($_POST['confirm_password']);
     //3- check whether the user with current id and password exists or not
-    $sql = "SELECT * FROM admins WHERE id = '$id' AND `password` = '$current_password'";
+    $sql = "SELECT `password` FROM admins WHERE id = '$id'";
     // echo $sql;
     // die();
     //4- execute the sql statment

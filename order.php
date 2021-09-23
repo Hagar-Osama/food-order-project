@@ -74,4 +74,4 @@ if (isset($_GET['food_id'])) {
 </section>
 <!-- fOOD sEARCH Section Ends Here -->
 
-<?php include_once "front-end_assets/footer.php" ?>
+<?php  include_once "front-end_assets/footer.php" ?>

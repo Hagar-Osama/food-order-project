@@ -5,7 +5,6 @@ $_SESSION['validation-errors'] = [];
 //check whether the bhtton is clicked or not
 
 if (isset($_POST['submit'])) {
-
     //button clicked
 
     //1- get data from form

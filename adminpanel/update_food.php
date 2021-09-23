@@ -24,7 +24,7 @@ if (isset($_GET['id']) && filter_var($_GET['id'], FILTER_VALIDATE_INT)) {
 
         // if data not found
     } else {
-        $_SESSION['error'] = "Category not found";
+        $_SESSION['error'] = "Food not found";
         header("location:" . SITEURL . "adminpanel/update_category.php");
     }
 }

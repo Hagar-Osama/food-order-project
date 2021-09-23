@@ -55,8 +55,6 @@ if (isset($_POST['update'])) {
     // die();
     //execute the query
     $result = mysqli_query($connection, $sql);
-    // var_dump($result);
-    // die();
     if (mysqli_affected_rows($connection) > 0) {
         // 6- redirect to category-manage page with message
         $_SESSION['success'] = "Category Updated Successfully.";
@@ -66,4 +64,3 @@ if (isset($_POST['update'])) {
         header("location:" . SITEURL . "adminpanel/category-manage.php");
     }
 }
-///cant make update without changing the image???
